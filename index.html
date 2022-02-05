@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <title>Facebook – log in or sign up</title>
-    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/48/000000/facebook-new.png">
+    <link rel="icon" type="image/x-icon" href="https://www.facebook.com/favicon.ico">
 </head>
 <body class="bg-gray-100">
     <div class="container flex mt-36 items-center justify-center">
@@ -14,12 +15,13 @@
             <img class="h-24 -ml-8" src="facebook.svg">
             <p class="text-3xl ">Facebook helps you connect and share <br>with the people in your life.</p>
         </div>
-        <div class="right flex flex-col bg-white p-8 justify-center items-center ml-12 shadow-2xl">
-            <input class="m-1 border-2 border-grey-300 rounded-md w-80 h-14 p-2" type="text" placeholder="Email address or phone number">
-            <input class="m-1 border-2 border-grey-300 rounded-md w-80 h-14 p-2" type="password" placeholder="Password">
-            <button class="m-1 rounded-md w-80 h-14 bg-blue-500 text-white font-bold">Log In</button>
-            <span class="cursor-pointer text-blue-400">Forgotten password?</span>
-            <button class="bg-green-500 rounded-md text-white h-14 w-48 font-bold">Create New Account</button>
+        <div class="right flex flex-col bg-white p-8 justify-center items-center ml-12 shadow-2xl rounded-lg">
+            <input class="m-1 border-2 border-grey-300 rounded-md w-80 h-14 p-2 text-lg" type="text" placeholder="Email address or phone number">
+            <input class="m-1 border-2 border-grey-300 rounded-md w-80 h-14 p-2 text-lg" type="password" placeholder="Password">
+            <button class="m-1 rounded-md w-80 h-14 bg-blue-500 hover:bg-blue-600 text-white font-bold text-lg">Log In</button>
+            <span class="cursor-pointer text-blue-400 text-sm my-2 hover:underline">Forgotten password?</span>
+            <hr class="my-2 bg-black text-black">
+            <button class="bg-green-500 hover:bg-green-600 rounded-md text-white h-14 w-48 font-bold my-2 text-lg">Create New Account</button>
         </div>
     </div>
 </body>
