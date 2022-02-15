@@ -20,85 +20,78 @@ int getMax(long long int arr[], long long int n)
     }
     return max;
 }
-
-void countSort(long long int a[], long long int n)
+void merge(long long int array[], long long int const left, long long int const mid, long long int const right)
 {
-    long long int output[n + 1];
-    long long int max = getMax(a, n);
-    long long int count[max + 1];
-    for (long long int i = 0; i <= max; ++i)
+    auto const subArrayOne = mid - left + 1;
+    auto const subArrayTwo = right - mid;
+    auto *leftArray = new int[subArrayOne],
+         *rightArray = new int[subArrayTwo];
+    for (auto i = 0; i < subArrayOne; i++)
+        leftArray[i] = array[left + i];
+    for (auto j = 0; j < subArrayTwo; j++)
+        rightArray[j] = array[mid + 1 + j];
+
+    auto indexOfSubArrayOne = 0,
+         indexOfSubArrayTwo = 0;
+    long long int indexOfMergedArray = left;
+    while (indexOfSubArrayOne < subArrayOne && indexOfSubArrayTwo < subArrayTwo)
     {
-        count[i] = 0;
+        if (leftArray[indexOfSubArrayOne] <= rightArray[indexOfSubArrayTwo])
+        {
+            array[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+            indexOfSubArrayOne++;
+        }
+        else
+        {
+            array[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+            indexOfSubArrayTwo++;
+        }
+        indexOfMergedArray++;
     }
-    for (long long int i = 0; i < n; i++)
+    while (indexOfSubArrayOne < subArrayOne)
     {
-        count[a[i]]++;
+        array[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+        indexOfSubArrayOne++;
+        indexOfMergedArray++;
     }
-    for (long long int i = 1; i <= max; i++)
+    while (indexOfSubArrayTwo < subArrayTwo)
     {
-        count[i] += count[i - 1];
-    }
-    for (long long int i = n - 1; i >= 0; i--)
-    {
-        output[count[a[i]] - 1] = a[i];
-        count[a[i]]--;
-    }
-    for (long long int i = 0; i < n; i++)
-    {
-        a[i] = output[i];
+        array[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+        indexOfSubArrayTwo++;
+        indexOfMergedArray++;
     }
 }
-
-void bucketSort(long long int arr[], long long int n)
+void mergeSort(long long int array[], long long int const begin, long long int const end)
 {
-    long long int max = getMax(arr, n);
-    long long int bucket[max], i;
-    for (long long int i = 0; i <= max; i++)
+    if (begin >= end)
+        return;
+    auto mid = begin + (end - begin) / 2;
+    mergeSort(array, begin, mid);
+    mergeSort(array, mid + 1, end);
+    merge(array, begin, mid, end);
+}
+int partition(long long int arr[], long long int low, long long int high)
+{
+    long long int pivot = arr[high];
+    long long int i = (low - 1);
+    for (long long int j = low; j <= high - 1; j++)
     {
-        bucket[i] = 0;
-    }
-    for (long long int i = 0; i < n; i++)
-    {
-        bucket[arr[i]]++;
-    }
-    for (long long int i = 0, j = 0; i <= max; i++)
-    {
-        while (bucket[i] > 0)
+        if (arr[j] < pivot)
         {
-            arr[j++] = i;
-            bucket[i]--;
+            i++;
+            swap(&arr[i], &arr[j]);
         }
     }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
 }
-void countingSort(long long int arr[], long long int n, long long int place)
+void quickSort(long long int arr[], long long int low, long long int high)
 {
-    long long int output[n + 1];
-    long long int count[10] = {0};
-    for (long long int i = 0; i < n; i++)
+    if (low < high)
     {
-        count[(arr[i] / place) % 10]++;
-    }
-    for (long long int i = 1; i < 10; i++)
-    {
-        count[i] += count[i - 1];
-    }
-    for (long long int i = n - 1; i >= 0; i--)
-    {
-        output[count[(arr[i] / place) % 10] - 1] = arr[i];
-        count[(arr[i] / place) % 10]--;
-    }
-    for (long long int i = 0; i < n; i++)
-    {
-        arr[i] = output[i];
-    }
-}
-
-void radixSort(long long int arr[], long long int n)
-{
-    long long int max = getMax(arr, n);
-    for (long long int place = 1; max / place > 0; place *= 10)
-    {
-        countingSort(arr, n, place);
+        long long int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
     }
 }
 void printArr(long long int arr[], long long int n)
@@ -111,12 +104,12 @@ void printArr(long long int arr[], long long int n)
 
 int main()
 {
-    // long long int a[] = {54, 12, 84, 57, 69, 41, 9, 5};
-    // long long int n = sizeof(a) / sizeof(a[0]);
-    // printArr(a, n);
-    // printf("\n");
-    // countSort(a, n);
-    // printArr(a, n);
+    long long int a[] = {2, 5, 84, 57, 6, 41, 9, 5};
+    long long int n = sizeof(a) / sizeof(a[0]);
+    printArr(a, n);
+    printf("\n");
+    quickSort(a, 0, n - 1);
+    printArr(a, n);
     /*
     For an input in file we can also use--->
 
@@ -132,35 +125,30 @@ int main()
 
     */
 
-    long long int n = 10000;
-    long long int it = 0;
-    double tim1[10], tim2[10], tim3[10];
-    printf("A_size, Bubble, Insertion, Selection\n");
-    while (it++ < 10)
-    {
-        long long int a[n], b[n], c[n];
-        for (long long int i = 0; i < n; i++)
-        {
-            long long int no = rand() % n + 1;
-            a[i] = no;
-            b[i] = no;
-            c[i] = no;
-        }
-        clock_t start, end;
-        start = clock();
-        radixSort(a, n);
-        end = clock();
-        tim1[it] = ((double)(end - start));
-        start = clock();
-        bucketSort(b, n);
-        end = clock();
-        tim2[it] = ((double)(end - start));
-        start = clock();
-        countSort(c, n);
-        end = clock();
-        tim3[it] = ((double)(end - start));
-        printf("%li, %li, %li, %li\n", n, (long int)tim1[it], (long int)tim2[it], (long int)tim3[it]);
-        n += 10000;
-    }
+    // long long int n = 10000;
+    // long long int it = 0;
+    // double tim1[10], tim2[10];
+    // printf("A_size, Merge, Quick\n");
+    // while (it++ < 10)
+    // {
+    //     long long int a[n], b[n];
+    //     for (long long int i = 0; i < n; i++)
+    //     {
+    //         long long int no = rand() % n + 1;
+    //         a[i] = no;
+    //         b[i] = no;
+    //     }
+    //     clock_t start, end;
+    //     start = clock();
+    //     mergeSort(a, 0, n - 1);
+    //     end = clock();
+    //     tim1[it] = ((double)(end - start));
+    //     start = clock();
+    //     quickSort(b, 0, n - 1);
+    //     end = clock();
+    //     tim2[it] = ((double)(end - start));
+    //     printf("%li, %li, %li\n", n, (long int)tim1[it], (long int)tim2[it]);
+    //     n += 10000;
+    // }
     return 0;
 }
