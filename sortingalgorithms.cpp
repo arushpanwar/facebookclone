@@ -104,12 +104,12 @@ void printArr(long long int arr[], long long int n)
 
 int main()
 {
-    long long int a[] = {2, 5, 84, 57, 6, 41, 9, 5};
-    long long int n = sizeof(a) / sizeof(a[0]);
-    printArr(a, n);
-    printf("\n");
-    quickSort(a, 0, n - 1);
-    printArr(a, n);
+//     long long int a[] = {2, 5, 84, 57, 6, 41, 9, 5};
+//     long long int n = sizeof(a) / sizeof(a[0]);
+//     printArr(a, n);
+//     printf("\n");
+//     quickSort(a, 0, n - 1);
+//     printArr(a, n);
     /*
     For an input in file we can also use--->
 
@@ -125,30 +125,30 @@ int main()
 
     */
 
-    // long long int n = 10000;
-    // long long int it = 0;
-    // double tim1[10], tim2[10];
-    // printf("A_size, Merge, Quick\n");
-    // while (it++ < 10)
-    // {
-    //     long long int a[n], b[n];
-    //     for (long long int i = 0; i < n; i++)
-    //     {
-    //         long long int no = rand() % n + 1;
-    //         a[i] = no;
-    //         b[i] = no;
-    //     }
-    //     clock_t start, end;
-    //     start = clock();
-    //     mergeSort(a, 0, n - 1);
-    //     end = clock();
-    //     tim1[it] = ((double)(end - start));
-    //     start = clock();
-    //     quickSort(b, 0, n - 1);
-    //     end = clock();
-    //     tim2[it] = ((double)(end - start));
-    //     printf("%li, %li, %li\n", n, (long int)tim1[it], (long int)tim2[it]);
-    //     n += 10000;
-    // }
+    long long int n = 10000;
+    long long int it = 0;
+    double tim1[10], tim2[10];
+    printf("A_size, Merge, Quick\n");
+    while (it++ < 10)
+    {
+        long long int a[n], b[n];
+        for (long long int i = 0; i < n; i++)
+        {
+            long long int no = rand() % n + 1;
+            a[i] = no;
+            b[i] = no;
+        }
+        clock_t start, end;
+        start = clock();
+        mergeSort(a, 0, n - 1);
+        end = clock();
+        tim1[it] = ((double)(end - start));
+        start = clock();
+        quickSort(b, 0, n - 1);
+        end = clock();
+        tim2[it] = ((double)(end - start));
+        printf("%li, %li, %li\n", n, (long int)tim1[it], (long int)tim2[it]);
+        n += 10000;
+    }
     return 0;
 }
